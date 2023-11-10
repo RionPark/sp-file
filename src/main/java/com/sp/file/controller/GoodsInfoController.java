@@ -3,13 +3,13 @@ package com.sp.file.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sp.file.service.GoodsFileInfoService;
 import com.sp.file.service.GoodsInfoService;
-import com.sp.file.vo.GoodsFileInfoVO;
 import com.sp.file.vo.GoodsInfoVO;
 
 import lombok.RequiredArgsConstructor;
@@ -37,5 +37,11 @@ public class GoodsInfoController {
 	public int addGoodsInfos(GoodsInfoVO goods) {
 		log.info("goods=>{}", goods);
 		return goodsService.insertGoodsInfo(goods);
+	}
+	
+	@PatchMapping("/goods-infos")
+	public int modifyGoodsInfos(GoodsInfoVO goods) {
+		
+		return goodsService.updateGoodsInfo(goods);
 	}
 }

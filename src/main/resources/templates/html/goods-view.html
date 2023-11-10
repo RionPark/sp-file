@@ -8,6 +8,7 @@
 <input type="text" id="giNum" readonly><br>
 <input type="text" id="giName"><br>
 <textarea id="giDesc"></textarea><br>
+<button onclick="addFileInput(this)">+</button>
 <div id="fileDiv" style="border:1px solid blue">
 	
 </div>
@@ -26,9 +27,11 @@
 			const goodsFile = goodsInfo.goodsFiles[i];
 			const html = `<div id="fileDiv${i+1}">`
 			             + `<img src="${goodsFile.gfiPath}" style="width:100px" id="img${i+1}">`
-			             + `<input type="file" id="file${i+1}" onchange="preview(this,'img${i+1}', ${goodsFile.gfiNum})">`					 
+			             + `<input type="file" id="file${i+1}" onchange="preview(this,'img${i+1}', ${goodsFile.gfiNum})" data-gfi-num=" ${goodsFile.gfiNum}">`
+			             + `<input type="number" id="sort${i+1}" value="${goodsFile.gfiSort}">`					 
 			             + `<button onclick="removeFileInput('fileDiv${i+1}', ${goodsFile.gfiNum})">-</button>`
-			             + `</div>`;
+			             + `</div>`
+			             + ``;
 			document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html);  
 		}
 		
@@ -48,8 +51,7 @@
 		const fileId = 'file' + (files.length+1);
 		const html = `<div id="fileDiv${files.length+1}"><input type="file" id="${fileId}">`
 					 + `<input type="number" id="sort${files.length+1}" value="${files.length+1}">`
-		             + `<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button>${button.outerHTML}</div>`;
-		button.remove();
+		             + `<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button></div>`;
 		document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html);
 	}
 	
@@ -68,15 +70,31 @@
 		const files = document.querySelectorAll('input[type=file]');
 		const sorts = document.querySelectorAll('input[id^=sort]');
 		const formData = new FormData();
-		formData.append('giName','홍게라면');
-		formData.append('giDesc','맛있다!!');
-		for(let i=0;i<files.length;i++){
-			formData.append(`goodsFiles[${i}].file`, files[i].files[0]);
+		formData.append('giNum', document.querySelector('#giNum').value);
+		formData.append('giName', document.querySelector('#giName').value);
+		formData.append('giDesc', document.querySelector('#giDesc').value);
+		let i=0;
+		for( ;i<files.length;i++){
+			if(files[i].files.length){
+				formData.append(`goodsFiles[${i}].file`, files[i].files[0]);
+			}
 			formData.append(`goodsFiles[${i}].gfiSort`, sorts[i].value);
-			formData.append(`goodsFiles[${i}].status`, 'INSERT');
+			if(files[i].getAttribute('data-gfi-num')){
+				formData.append(`goodsFiles[${i}].gfiNum`,files[i].getAttribute('data-gfi-num'));
+				formData.append(`goodsFiles[${i}].status`, 'UPDATE');
+			}else{
+				formData.append(`goodsFiles[${i}].status`, 'INSERT');
+			}
+		}
+		for(const goodsFile of goodsFiles){
+			if(goodsFile.status==='DELETE'){
+				formData.append(`goodsFiles[${i}].status`, 'DELETE');
+				formData.append(`goodsFiles[${i}].gfiNum`,`${goodsFile.gfiNum}`);
+				formData.append(`goodsFiles[${i++}].gfiPath`,`${goodsFile.gfiPath}`);
+			}
 		}
 		const xhr = new XMLHttpRequest();
-		xhr.open('POST', '/goods-infos');
+		xhr.open('PATCH', '/goods-infos');
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState === xhr.DONE){
 				if(xhr.status === 200){
