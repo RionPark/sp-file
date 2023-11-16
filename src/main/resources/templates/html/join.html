@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>회원가입</h3>
+<form method="POST" action="/form/join">
+	<input type="text" name="liId" placeholder="ID"><br>
+	<input type="text" name="liName" placeholder="이름"><br>
+	<input type="password" name="liPwd" placeholder="Password"><br>
+	<button>Form회원가입</button>
+	<button type="button" onclick="join()">Ajax회원가입</button>
+</form>
+<script>
+	async function join(){
+		const url = '/api/join';
+		const method = 'POST';
+		const param = {
+			liId : document.querySelector('[name=liId]').value,
+			liName : document.querySelector('[name=liName]').value,
+			liPwd : document.querySelector('[name=liPwd]').value
+		}
+		const res = await fetch(url,{
+			method:'POST',
+			body : JSON.stringify(param),
+			headers:{
+				'Content-Type':'application/json'
+			}
+		});
+		const data = await res.json();
+		if(data && data.result===1){
+			alert('회원가입이 완료 되었습니다.');
+			location.href='/html/login';
+		}else{
+			alert('회원가입이 실패하였습니다.');
+		}
+	}
+</script>
+</body>
+</html>

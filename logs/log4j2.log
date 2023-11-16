@@ -1,0 +1,11 @@
+[2023-11-16 11:19:27.978]  INFO 5496 --- [nnection closer] l.log4j2                                 : 5. Connection closed. {executed in 5ms} 
+[2023-11-16 11:19:27.984]  INFO 5496 --- [nnection closer] l.log4j2                                 : 5. Connection.close() returned 
+[2023-11-16 11:19:28.004]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Connection opened. {executed in 31ms} 
+[2023-11-16 11:19:28.004]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Connection.new Connection returned 
+[2023-11-16 11:19:28.004]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Connection.isReadOnly() returned false
+[2023-11-16 11:19:28.004]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Connection.getAutoCommit() returned true
+[2023-11-16 11:19:28.005]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Statement.new Statement returned 
+[2023-11-16 11:19:28.005]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Connection.createStatement() returned net.sf.log4jdbc.sql.jdbcapi.StatementSpy@14cb05dd
+[2023-11-16 11:19:28.010]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. select now()  {executed in 4 ms}
+[2023-11-16 11:19:28.010]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Statement.execute(select now()) returned true
+[2023-11-16 11:19:28.010]  INFO 5496 --- [onnection adder] l.log4j2                                 : 6. Statement.close() returned 

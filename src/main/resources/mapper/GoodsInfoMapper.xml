@@ -1,5 +1,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
+
+
 <mapper namespace="com.sp.file.mapper.GoodsInfoMapper">
 	<insert id="insertGoodsInfo" useGeneratedKeys="true" keyColumn="GI_NUM" keyProperty="giNum">
 		INSERT GOODS_INFO(GI_NAME, GI_DESC)
@@ -21,5 +24,3 @@
 		WHERE GI_NUM = #{giNum}
 	</update>
 </mapper>
-
-
